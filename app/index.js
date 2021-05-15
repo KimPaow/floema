@@ -1,1 +1,7 @@
-console.log('test')
+class App {
+  constructor() {
+    console.log('test')
+  }
+}
+
+new App()

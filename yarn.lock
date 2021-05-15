@@ -42,15 +42,6 @@
     semver "^6.3.0"
     source-map "^0.5.0"
 
-"@babel/eslint-parser@^7.14.2":
-  version "7.14.2"
-  resolved "https://registry.yarnpkg.com/@babel/eslint-parser/-/eslint-parser-7.14.2.tgz#aa6fe7b76378397d643f14dfa8bf920cb6fbddab"
-  integrity sha512-g1YXHASb84MvEkReG/nZ74emTPAMjip1Ey6azZqKTEWidpgEzPGl/uoc6IPJjaMGw424u40sNm1V70tuYOQmeA==
-  dependencies:
-    eslint-scope "^5.1.0"
-    eslint-visitor-keys "^2.1.0"
-    semver "^6.3.0"
-
 "@babel/generator@^7.14.2":
   version "7.14.2"
   resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.14.2.tgz#d5773e8b557d421fd6ce0d5efa5fd7fc22567c30"
@@ -2844,7 +2835,7 @@ eslint-plugin-promise@^5.1.0:
   resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-5.1.0.tgz#fb2188fb734e4557993733b41aa1a688f46c6f24"
   integrity sha512-NGmI6BH5L12pl7ScQHbg7tvtk4wPxxj8yPHH47NvSmMtFneC077PSeY3huFj06ZWZvtbfxSPt3RuOQD5XcR4ng==
 
-eslint-scope@^5.1.0, eslint-scope@^5.1.1:
+eslint-scope@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/eslint-scope/-/eslint-scope-5.1.1.tgz#e786e59a66cb92b3f6c1fb0d508aab174848f48c"
   integrity sha512-2NxwbF/hZ0KpepYN0cNbo+FN6XoK7GaHlQhgx/hIZl6Va0bF45RQOOwhLIy8lQDbuCiadSLCBnH2CFYquit5bw==
@@ -2864,7 +2855,7 @@ eslint-visitor-keys@^1.1.0, eslint-visitor-keys@^1.3.0:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.3.0.tgz#30ebd1ef7c2fdff01c3a4f151044af25fab0523e"
   integrity sha512-6J72N8UNa462wa/KFODt/PJ3IU60SDpC3QXC1Hjc1BXXpfL2C9R5+AU7jhe0F6GREqVMh4Juu+NY7xn+6dipUQ==
 
-eslint-visitor-keys@^2.0.0, eslint-visitor-keys@^2.1.0:
+eslint-visitor-keys@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-2.1.0.tgz#f65328259305927392c938ed44eb0a5c9b2bd303"
   integrity sha512-0rSmRBzXgDzIsD6mGdJgevzgezI534Cer5L/vyMX0kHzT/jiB43jRhd9YUlMGYLQy2zprNmoT8qasCGtY+QaKw==
@@ -3218,6 +3209,14 @@ file-entry-cache@^6.0.1:
   integrity sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==
   dependencies:
     flat-cache "^3.0.4"
+
+file-loader@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-6.2.0.tgz#baef7cf8e1840df325e4390b4484879480eebe4d"
+  integrity sha512-qo3glqyTa61Ytg4u73GultjHGjdRyig3tG6lPtyX/jOEJvHif9uB0/OCI2Kif6ctF3caQTW2G5gym21oAsI4pw==
+  dependencies:
+    loader-utils "^2.0.0"
+    schema-utils "^3.0.0"
 
 file-type@5.2.0, file-type@^5.2.0:
   version "5.2.0"
@@ -4096,6 +4095,11 @@ imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
   integrity sha1-khi5srkoojixPcT7a21XbyMUU+o=
+
+include-media@^1.4.10:
+  version "1.4.10"
+  resolved "https://registry.yarnpkg.com/include-media/-/include-media-1.4.10.tgz#7a311c92c396c808504ec6a5365115d30571f259"
+  integrity sha512-TymQzKF7oWHbItEcEHOCponZ90lRr1I9QbYeD+qCxXy4Z0/pSpS4Ocz2bq3FMOERlXXrY9Sawsh9GjiObVQA6A==
 
 indent-string@^2.1.0:
   version "2.1.0"

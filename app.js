@@ -11,10 +11,11 @@ const path = require('path')
 const port = 3000
 
 app.use(logger('dev'))
-app.use(errorHandler())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(methodOverride())
+app.use(errorHandler())
+app.use(express.static(path.join(__dirname, 'public')))
 
 const Prismic = require('@prismicio/client')
 var PrismicDOM = require('prismic-dom')
@@ -27,12 +28,10 @@ const initApi = (req) => {
   })
 }
 
-// Link Resolver
 const handleLinkResolver = (doc) => {
-  console.log('doc:', doc)
   switch (doc.type) {
     case 'product':
-      return `/detail/${doc.slug}`
+      return `/detail/${doc.uid}`
     case 'about':
       return `/about`
     case 'collections':

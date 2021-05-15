@@ -8,7 +8,7 @@ block content
     .collections__wrapper
       .collections__titles
         each collection, index in collections
-          .collections__titles_label=`${home.data.collection} ${numberToWord(index + 1)}`
+          .collections__titles_label!=`${home.data.collection}<br>${numberToWord(index + 1)}`
           .collections__titles_title=collection.data.title
       .collections__gallery
         .collections__gallery__wrapper
@@ -19,7 +19,13 @@ block content
                   img.collections__gallery__media__image(alt=product.product.data.image.alt src=product.product.data.image.url)
 
         .collections__content
-          each collection in collections
-            article.collections__article
+          each collection, index in collections
+            article.collections__article(class=`${index === 0 ? 'collections__article--active' : ''}`)
               h2.collections__article__title=`${collection.data.title} ${home.data.collection}`
               p.collections__article__description=collection.data.description
+
+        .collections__mobile
+          each collection, index in collections
+            .collections__mobile__item
+              .collections__mobile__item__label!=`${home.data.collection}<br>${numberToWord(index + 1)}`
+              .collections__mobile__item__title=collection.data.title
