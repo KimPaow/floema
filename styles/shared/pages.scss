@@ -1,0 +1,33 @@
+%page {
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  visibility: hidden;
+  width: 100%;
+}
+
+%page_wrapper {
+  color: inherit;
+}
+
+// %page-active {
+//   opacity: 1;
+//   pointer-events: auto;
+//   transition: none;
+//   visibility: visible;
+// }
+
+// %content {
+//   align-items: flex-end;
+//   display: flex;
+//   height: 100%;
+//   left: 0;
+//   overflow: hidden;
+//   top: 0;
+//   width: 100%;
+// }

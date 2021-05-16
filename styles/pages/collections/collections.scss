@@ -1,5 +1,6 @@
 .collections {
-  @extend %cover;
+  @extend %page;
+
   color: $color-off-white;
   background-color: $color-background-secondary;
 }

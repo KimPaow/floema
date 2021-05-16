@@ -1,19 +1,40 @@
+import Highlight from 'animations/Highlight'
+import Label from 'animations/Label'
+import Paragraph from 'animations/Paragraph'
+import Title from 'animations/Title'
 import GSAP from 'gsap'
 import each from 'lodash/each'
+import map from 'lodash/map'
+import NormalizeWheel from 'normalize-wheel'
+import Prefix from 'prefix'
 
 export default class Page {
   constructor({ element, elements = {}, id }) {
     this.selector = element
     this.selectorChildren = {
       ...elements,
+      animationTitles: '[data-animation="title"]',
+      animationParagraphs: '[data-animation="paragraph"]',
+      animationLabel: '[data-animation="label"]',
+      animationHighlights: '[data-animation="highlight"]',
     }
     this.id = id
+    this.transformPrefix = Prefix('transform')
+
+    this.onMouseWheelEvent = this.onMouseWheel.bind(this)
   }
 
   // other pages inherit the Page class, thus making these methods available on page.create() etc
   create() {
     this.element = document.querySelector(this.selector)
     this.elements = {}
+
+    this.scroll = {
+      current: 0,
+      target: 0,
+      last: 0,
+      limit: 1000,
+    }
 
     each(this.selectorChildren, (value, key) => {
       if (
@@ -32,26 +53,123 @@ export default class Page {
         } else if (this.elements[key].length === 1) {
           this.elements[key] = document.querySelector(value)
         }
-        // console.log(this.elements[key], value)
       }
     })
+
+    this.createAnimations()
+  }
+
+  createAnimations() {
+    this.animations = []
+
+    // Titles
+    this.animationTitles = map(this.elements.animationTitles, (element) => {
+      return new Title({
+        element,
+      })
+    })
+
+    // Paragraphs
+    this.animationParagraphs = map(this.elements.animationParagraphs, (element) => {
+      return new Paragraph({
+        element,
+      })
+    })
+
+    // Labels
+    this.animationLabels = map(this.elements.animationLabels, (element) => {
+      return new Label({
+        element,
+      })
+    })
+
+    // Highlights
+    this.animationHighlights = map(this.elements.animationHighlights, (element) => {
+      return new Highlight({
+        element,
+      })
+    })
+
+    this.animations.push(
+      ...this.animationTitles,
+      ...this.animationParagraphs,
+      ...this.animationLabels,
+      ...this.animationHighlights
+    )
   }
 
   show() {
     return new Promise((resolve) => {
-      GSAP.from(this.element, {
-        autoAlpha: 0,
-        onComplete: resolve,
+      this.animationIn = GSAP.timeline()
+
+      this.animationIn.fromTo(
+        this.element,
+        {
+          autoAlpha: 0,
+        },
+        {
+          autoAlpha: 1,
+          duration: 1.5,
+          ease: 'expo.out',
+        }
+      )
+
+      this.animationIn.call(() => {
+        this.addEventListeners()
+        resolve()
       })
     })
   }
 
   hide() {
     return new Promise((resolve) => {
-      GSAP.to(this.element, {
+      this.removeEventListeners()
+
+      this.animationOut = GSAP.timeline()
+
+      this.animationOut.to(this.element, {
         autoAlpha: 0,
         onComplete: resolve,
       })
     })
+  }
+
+  onMouseWheel(event) {
+    const { pixelY } = NormalizeWheel(event)
+    this.scroll.target += pixelY
+  }
+
+  onResize() {
+    if (this.elements.wrapper) {
+      // limit the max Y scroll value
+      this.scroll.limit = this.elements.wrapper.clientHeight - window.innerHeight
+    }
+
+    each(this.animations, (animation) => animation.onResize())
+  }
+
+  update() {
+    // limit the scrollable amount
+    this.scroll.target = GSAP.utils.clamp(0, this.scroll.limit, this.scroll.target)
+
+    // since javascript is bad at handling small numbers
+    if (this.scroll.current < 0.01) {
+      this.scroll.current = 0
+    }
+
+    // smooth lerped scroll
+    this.scroll.current = GSAP.utils.interpolate(this.scroll.current, this.scroll.target, 0.1)
+
+    if (this.elements.wrapper) {
+      this.elements.wrapper.style[this.transformPrefix] = `translateY(-${this.scroll.current}px)`
+    }
+  }
+
+  addEventListeners() {
+    window.addEventListener('mousewheel', this.onMouseWheelEvent)
+  }
+
+  removeEventListeners() {
+    window.removeEventListener('mousewheel', this.onMouseWheelEvent)
   }
 }

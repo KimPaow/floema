@@ -16,7 +16,7 @@ block content
             each product in collection.data.products
               a.collections__gallery__link(href=Link(product.product))
                 figure.collections__gallery__media
-                  img.collections__gallery__media__image(alt=product.product.data.image.alt src=product.product.data.image.url)
+                  img.collections__gallery__media__image(alt=product.product.data.image.alt data-src=product.product.data.image.url)
 
         .collections__content
           each collection, index in collections
