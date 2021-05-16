@@ -5,7 +5,7 @@ module.exports = {
     IS_DEVELOPMENT: 'readonly',
   },
   parserOptions: {
-    ecmasVersion: 2020,
+    ecmaVersion: 2020,
     sourceType: 'module',
   },
   env: {

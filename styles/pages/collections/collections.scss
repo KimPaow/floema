@@ -86,6 +86,10 @@
   bottom: 5rem;
   display: flex;
   position: absolute;
+
+  @include media('>phone') {
+    display: none;
+  }
 }
 
 .collections__mobile__item {

@@ -1,5 +1,7 @@
 .home {
   @extend %cover;
+  @extend %center;
+
   color: $color-off-white;
   background-color: $color-background-primary;
   text-align: center;

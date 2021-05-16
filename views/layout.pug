@@ -4,7 +4,7 @@ doctype html
 html(lang='en')
   head
     meta(charset='utf8')
-    meta(name='viewport' content='width=device-width, intial-scale=1.0')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
 
     base(href='/')
 
@@ -19,16 +19,17 @@ html(lang='en')
     link(rel="mask-icon" href="/safari-pinned-tab.svg" color="#fbf7ec")
     meta(name="msapplication-TileColor" content="#fbf7ec")
     meta(name="theme-color" content="#fbf7ec")
+    link(rel="shortcut icon" type="image/x-icon" href="./favicon.ico?update=true")
 
-    //- meta(property="og:type" content="website")
-    //- meta(property="og:title" content=meta.data.title)
-    //- meta(property="og:description" content=meta.data.description)
-    //- meta(property="og:image" content=meta.data.image ? meta.data.image.url : '')
+    meta(property="og:type" content="website")
+    meta(property="og:title" content=metadata.data.title)
+    meta(property="og:description" content=metadata.data.description)
+    meta(property="og:image" content=metadata.data.image ? metadata.data.image.url : '')
 
-    //- meta(name="twitter:card" content="summary_large_image")
-    //- meta(name="twitter:title" content=meta.data.title)
-    //- meta(name="twitter:description" content=meta.data.description)
-    //- meta(name="twitter:image" content=meta.data.image ? meta.data.image.url : '')
+    meta(name="twitter:card" content="summary_large_image")
+    meta(name="twitter:title" content=metadata.data.title)
+    meta(name="twitter:description" content=metadata.data.description)
+    meta(name="twitter:image" content=metadata.data.image ? metadata.data.image.url : '')
 
     //- link(rel="preconnect" href="https://www.google-analytics.com")
     link(href='main.css' rel='stylesheet')
