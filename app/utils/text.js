@@ -53,7 +53,6 @@ export function calculate(spans) {
   let position = spans[0].offsetTop
 
   each(spans, (span, index) => {
-    console.log(span.offsetTop, position)
     if (span.offsetTop === position) {
       words.push(span)
     }

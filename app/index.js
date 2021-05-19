@@ -1,3 +1,4 @@
+import Navigation from 'components/Navigation'
 import Preloader from 'components/Preloader'
 import { each } from 'lodash'
 import About from 'pages/About'
@@ -7,8 +8,9 @@ import Home from 'pages/Home'
 
 class App {
   constructor() {
-    this.createPreloader()
     this.createContent()
+    this.createNavigation()
+    this.createPreloader()
     this.createPages()
 
     this.addLinkListeners()
@@ -20,6 +22,12 @@ class App {
   /**
    * Creation
    */
+  createNavigation() {
+    this.navigation = new Navigation({
+      template: this.template,
+    })
+  }
+
   createPreloader() {
     this.preloader = new Preloader()
     this.preloader.once('completed', this.onPreloaded.bind(this))
@@ -43,6 +51,17 @@ class App {
   }
 
   /**
+   * Animation loop
+   */
+  update() {
+    // start a separate animation loop for pages, if one exists
+    if (this.page && this.page.update) {
+      this.page.update()
+    }
+    this.frame = window.requestAnimationFrame(this.update.bind(this))
+  }
+
+  /**
    * Events
    */
   onPreloaded() {
@@ -51,20 +70,27 @@ class App {
     this.page.show()
   }
 
-  async onChange(url) {
-    await this.page.hide()
+  async onNavigation({ url, push = true }) {
+    await this.page.hide() // hide current page
     const request = await window.fetch(url) // fetch requested page
 
-    // Thought: could this be a try catch block?
     if (request.status === 200) {
       const html = await request.text()
       const div = document.createElement('div') // create fake div
+
+      if (push) {
+        window.history.pushState({}, '', url)
+      }
 
       div.innerHTML = html // save html response to fake div
 
       const divContent = div.querySelector('.content') // select new content from fake div
 
       this.template = divContent.getAttribute('data-template') // update template value
+      this.background = divContent.getAttribute('data-background')
+      this.color = divContent.getAttribute('data-color')
+
+      this.navigation.onNavigation(this.template)
 
       this.content.setAttribute('data-template', this.template)
       this.content.innerHTML = divContent.innerHTML // apply fake div content to our page
@@ -82,6 +108,10 @@ class App {
     }
   }
 
+  onPopState() {
+    this.onNavigation({ url: window.location.pathname, push: false })
+  }
+
   onResize() {
     if (this.page && this.page.onResize) {
       this.page.onResize()
@@ -89,20 +119,10 @@ class App {
   }
 
   /**
-   * Animation loop
-   */
-  update() {
-    // start a separate animation loop for pages, if one exists
-    if (this.page && this.page.update) {
-      this.page.update()
-    }
-    this.frame = window.requestAnimationFrame(this.update.bind(this))
-  }
-
-  /**
    * Listeners
    */
   addEventListeners() {
+    window.addEventListener('popstate', this.onPopState.bind(this))
     window.addEventListener('resize', this.onResize.bind(this))
   }
 
@@ -115,7 +135,7 @@ class App {
 
         const { href } = link
 
-        this.onChange(href)
+        this.onNavigation({ url: href })
       }
     })
   }

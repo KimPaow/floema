@@ -20,6 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 const Prismic = require('@prismicio/client')
 var PrismicDOM = require('prismic-dom')
 const apiEndpoint = process.env.PRISMIC_ENDPOINT
+const UAParser = require('ua-parser-js')
 
 const initApi = (req) => {
   return Prismic.getApi(apiEndpoint, {
@@ -42,18 +43,7 @@ const handleLinkResolver = (doc) => {
 }
 
 var th_val = ['', 'thousand', 'million', 'billion', 'trillion']
-var dg_val = [
-  'zero',
-  'one',
-  'two',
-  'three',
-  'four',
-  'five',
-  'six',
-  'seven',
-  'eight',
-  'nine',
-]
+var dg_val = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
 var tn_val = [
   'ten',
   'eleven',
@@ -66,16 +56,7 @@ var tn_val = [
   'eighteen',
   'nineteen',
 ]
-var tw_val = [
-  'twenty',
-  'thirty',
-  'forty',
-  'fifty',
-  'sixty',
-  'seventy',
-  'eighty',
-  'ninety',
-]
+var tw_val = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
 function numberToWord(s) {
   s = s.toString()
   s = s.replace(/[\, ]/g, '')
@@ -116,9 +97,17 @@ function numberToWord(s) {
 
 // Middleware to inject prismic context
 app.use((req, res, next) => {
-  res.locals.PrismicDOM = PrismicDOM
-  res.locals.numberToWord = numberToWord
+  const ua = UAParser(req.headers['user-agent'])
+
+  res.locals.isDesktop = ua.device.type === undefined
+  res.locals.isTablet = ua.device.type === 'tablet'
+  res.locals.isPhone = ua.device.type === 'mobile'
+
+  console.log(res.locals.isDesktop, res.locals.isTablet, res.locals.isPhone)
+
   res.locals.Link = handleLinkResolver
+  res.locals.numberToWord = numberToWord
+  res.locals.PrismicDOM = PrismicDOM
   next()
 })
 
