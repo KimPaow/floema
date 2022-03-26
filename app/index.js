@@ -1,3 +1,4 @@
+import Canvas from 'components/Canvas'
 import Navigation from 'components/Navigation'
 import Preloader from 'components/Preloader'
 import { each } from 'lodash'
@@ -11,6 +12,7 @@ class App {
     this.createContent()
     this.createNavigation()
     this.createPreloader()
+    this.createCanvas()
     this.createPages()
 
     this.addLinkListeners()
@@ -31,6 +33,10 @@ class App {
   createPreloader() {
     this.preloader = new Preloader()
     this.preloader.once('completed', this.onPreloaded.bind(this))
+  }
+
+  createCanvas() {
+    this.canvas = new Canvas()
   }
 
   createContent() {
@@ -54,6 +60,10 @@ class App {
    * Animation loop
    */
   update() {
+    if (this.canvas && this.canvas.update) {
+      // console.log('update canvas')
+      this.canvas.update()
+    }
     // start a separate animation loop for pages, if one exists
     if (this.page && this.page.update) {
       this.page.update()
@@ -113,6 +123,9 @@ class App {
   }
 
   onResize() {
+    if (this.canvas && this.canvas.onResize) {
+      this.canvas.onResize()
+    }
     if (this.page && this.page.onResize) {
       this.page.onResize()
     }
